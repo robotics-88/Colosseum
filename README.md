@@ -27,8 +27,25 @@ Below are the list of officially supported Operating Systems, with full Unreal E
 ### Linux
 - ~~Ubuntu 18.04~~ (NO LONGER SUPPORTED. 18.04 is EOL so we will not be checking this anymore and GitHub doesn't support CI builds)
 - Ubuntu 20.04
+- Ubuntu 22.04 *
   
-**NOTE** Ubuntu 22.04 is not currently supported due to Vulkan support. If this changes, we will notify you here. If you want to use Colosseum on 22.04, we highly recommend that you use Docker.
+**NOTE** Ubuntu 22.04 requires the following addiitonal setup:
+First check your gcc version. We need it to be 12, but the default is 11: `gcc --version`
+Assuming it is 11, we must upgrade to 12.
+```
+sudo apt install gcc-12 g++-12
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 60 --slave /usr/bin/g++ g++ /usr/bin/g++-11
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 40 --slave /usr/bin/g++ g++ /usr/bin/g++-12
+```
+We've installed it and made it an option, but now we have to select it interactively:
+```
+sudo update-alternatives --config gcc
+```
+Select the gcc 12 option. If you previously built with gcc 12, first clean, then rebuild:
+```
+./clean.sh
+./build.sh
+```
 
 ### MacOS (Non-M1 Macs only)
 - MacOS Monterey (12)
